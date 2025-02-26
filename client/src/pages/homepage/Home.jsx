@@ -1,9 +1,15 @@
 import React, { useEffect } from "react";
-import axiosClient from "../../utils/axiosClients";
 import Navbar from "../../components/navbar/Navbar";
 import { Outlet } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { UserInfo } from "../../redux/slice/appConfigSlice";
 
 function Home() {
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(UserInfo());
+  },[])
+
   return (
     <>
       <Navbar />

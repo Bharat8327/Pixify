@@ -1,25 +1,26 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const postSchema = mongoose.Schema({
-    owner :{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'user',
-        required : true
+const postSchema = mongoose.Schema(
+  {
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
     },
-    image :{
-        publicId :String,
-        url :String
+    image: {
+      publicId: String,
+      url: String,
     },
-    caption :{
-        type:String,
-        required :true
+    caption: {
+      type: String,
+      required: true,
     },
-    likes :[
-        {
-            type :mongoose.Schema.Types.ObjectId,
-            ref : 'user'
-        }
-    ]
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+      },
+    ],
     // comments :[
     //     {
     //         comment :String,
@@ -29,9 +30,11 @@ const postSchema = mongoose.Schema({
     //         }
     //     }
     // ]
+  },
+  {
+    timestamps: true,
+  },
+);
 
-});
-
-
-module.exports = mongoose.model("post",postSchema);
+module.exports = mongoose.model('post', postSchema);
 // The above snippet creates a schema for posts. The schema contains the following fields:
