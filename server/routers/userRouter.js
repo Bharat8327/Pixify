@@ -4,8 +4,8 @@ const requireUser = require('../middlewares/requireUser');
 const router = require('express').Router();
 
 router.post('/follow', requireUser, UserContoller.followOrUnfollowController);
-router.post(
-  '/getPostOfFollowing',
+router.get(
+  '/getFeedData',
   requireUser,
   UserContoller.getPostOfFollowingController,
 );

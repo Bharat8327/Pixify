@@ -3,6 +3,7 @@ import Avatar from '../components/avatar/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../utils/axiosClients';
 import { setLoading } from '../redux/slice/appConfigSlice';
+import { getUserProfile } from '../redux/slice/postSlice';
 
 function CreatePost() {
   const dispatch = useDispatch();
@@ -30,8 +31,14 @@ function CreatePost() {
           caption,
           postImg,
         });
-      } catch (e) {
-        console.log(e.message);
+        console.log('post created successfully ');
+        dispatch(
+          getUserProfile({
+            userId: profile?._id,
+          }),
+        );
+      } catch (error) {
+        console.log(error);
       } finally {
         dispatch(setLoading(false));
         setCaption('');

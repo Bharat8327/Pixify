@@ -1,4 +1,6 @@
+const ta = require('time-ago');
 const userPostMap = (post, userId) => {
+  const createdAtDate = new Date(post.createdAt);
   return {
     _id: post._id,
     caption: post.caption,
@@ -10,6 +12,7 @@ const userPostMap = (post, userId) => {
     },
     likesCount: post.likes.length,
     isLiked: post.likes.includes(userId),
+    timeago: ta.ago(createdAtDate), // Ensure createdAt is a valid date
   };
 };
 

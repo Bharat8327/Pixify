@@ -3,11 +3,27 @@ import '../../../src/index.css';
 import Avatar from '../avatar/Avatar';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../redux/slice/appConfigSlice';
+import axiosClient from '../../utils/axiosClients';
+import { KEY_ACCESS_TOKEN, removeItem } from '../../utils/localStorageManager';
 
 function Navbar() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const profile = useSelector((state) => state.appconfigReducer.myProfile);
+
+  const handleLogOut = async () => {
+    try {
+      dispatch(setLoading(true));
+      await axiosClient.post('/auth/logout');
+      removeItem(KEY_ACCESS_TOKEN);
+      navigate('/login');
+      dispatch(setLoading(false));
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="border-b-2 var(--border-color)  h-[50px] fixed top-0 w-full bg-white  ">
@@ -32,7 +48,7 @@ function Navbar() {
             <Avatar src={profile?.avatar?.url} />
           </div>
           <div className="text-4xl cursor-pointer hover:text-red-500 active:text-black">
-            <BiLogOutCircle onClick={() => navigate('/login')} />
+            <BiLogOutCircle onClick={handleLogOut} />
           </div>
         </div>
       </div>
