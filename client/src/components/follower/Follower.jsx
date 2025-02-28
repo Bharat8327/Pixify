@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import dummy from '../../assets/avatar.png';
 import Avatar from '../avatar/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { followAndUnfollow } from '../../redux/slice/feedSlice';
@@ -8,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 function Follower({ data }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const feed = useSelector((state) => state.feedDataReducer.feedData);
+  const feed = useSelector((state) => state.feedData.feedData);
   const [follow, setFollow] = useState();
 
   useEffect(() => {

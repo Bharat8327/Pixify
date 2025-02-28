@@ -5,10 +5,14 @@ import {
   removeItem,
   setItem,
 } from './localStorageManager';
+import { TOAST_FAILURE } from '../App';
+import { setLoading, showToast } from '../redux/slice/appConfigSlice';
+
+const baseURL = 'http://localhost:8696';
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:8696',
-  withCredentials: true /*without this not send the cookies fronted to backend without this  */,
+  baseURL,
+  withCredentials: true,
 });
 
 // when api call from fronted  interceptores throw send the token automatic token send
@@ -17,11 +21,17 @@ axiosClient.interceptors.request.use((request) => {
   if (accessToken) {
     request.headers['Authorization'] = `Bearer ${accessToken}`;
   }
+  import('../redux/store/store').then(({ default: store }) => {
+    store.dispatch(setLoading(true));
+  });
   return request;
 });
 
 axiosClient.interceptors.response.use(
   async (response) => {
+    import('../redux/store/store').then(({ default: store }) => {
+      store.dispatch(setLoading(false));
+    });
     const data = response.data;
     if (data.status === 'ok') {
       return data;
@@ -29,6 +39,15 @@ axiosClient.interceptors.response.use(
     const originalRequest = response.config; // give to u original request where are u send the request to the server
     const statusCode = data.statusCode;
     const error = data.message;
+
+    import('../redux/store/store').then(({ default: store }) => {
+      store.dispatch(
+        showToast({
+          type: TOAST_FAILURE,
+          message: error,
+        }),
+      );
+    });
 
     // refresh token are expired and say to user to login again
     if (statusCode === 401 && !originalRequest._retry) {
@@ -39,7 +58,7 @@ axiosClient.interceptors.response.use(
           .create({
             withCredentials: true,
           })
-          .get(`http://localhost:8696/auth/refresh`);
+          .get(`${baseURL}/auth/refresh`);
 
         if (response.data.status === 'ok') {
           setItem(KEY_ACCESS_TOKEN, response.data.result.accessToken);
@@ -52,27 +71,26 @@ axiosClient.interceptors.response.use(
           window.location.replace('/login', '_self');
           return Promise.reject(error);
         }
-      } catch (error) {
+      } catch (refreshError) {
         removeItem(KEY_ACCESS_TOKEN);
         window.location.replace('/login', '_self');
         return Promise.reject(refreshError);
       }
     }
-    console.log('post error', error);
     return Promise.reject(error);
   },
   async (error) => {
+    import('../redux/store/store').then(({ default: store }) => {
+      store.dispatch(setLoading(false));
+      store.dispatch(
+        showToast({
+          type: TOAST_FAILURE,
+          message: error.message,
+        }),
+      );
+    });
     return Promise.reject(error);
   },
 );
 
 export default axiosClient;
-
-/*!SECTION
- store.dispatch(
-      showToast({
-        type: TOAST_FAILURE,
-        message: error,
-      }),
-    );
-*/

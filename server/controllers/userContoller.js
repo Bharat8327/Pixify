@@ -10,7 +10,6 @@ cloudinary.config({
   api_key: '398291225275447',
   api_secret: 'A0UpBF5u4YcUD28jinn8o_IXefs',
 });
-
 const followOrUnfollowController = async (req, res) => {
   try {
     const { userIdToFollow } = req.body;
@@ -53,7 +52,6 @@ const getPostOfFollowingController = async (req, res) => {
     if (!currUser) {
       return res.send(error(404, 'User not found'));
     }
-
     // const posts = await Post.find({
     //   owner: { $in: currUser.following.map((user) => user._id) },
     // });
@@ -66,16 +64,13 @@ const getPostOfFollowingController = async (req, res) => {
     const posts = fullPosts.map((item) => userPostMap(item, req._id)).reverse();
     const followingsIds = currUser.following.map((item) => item._id);
     followingsIds.push(req._id);
-    console.log('posts here', posts);
-
     const suggestions = await User.find({
       _id: {
         $nin: followingsIds,
       },
     });
-    console.log(posts);
     return res.send(success(200, { ...currUser._doc, suggestions, posts }));
-  } catch (e) {  
+  } catch (e) {
     return res.send(error(500, e.message));
   }
 };

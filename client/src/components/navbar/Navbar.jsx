@@ -4,22 +4,19 @@ import Avatar from '../avatar/Avatar';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading } from '../../redux/slice/appConfigSlice';
 import axiosClient from '../../utils/axiosClients';
 import { KEY_ACCESS_TOKEN, removeItem } from '../../utils/localStorageManager';
 
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const profile = useSelector((state) => state.appconfigReducer.myProfile);
+  const profile = useSelector((state) => state.appconfig.myProfile);
 
   const handleLogOut = async () => {
     try {
-      dispatch(setLoading(true));
       await axiosClient.post('/auth/logout');
       removeItem(KEY_ACCESS_TOKEN);
       navigate('/login');
-      dispatch(setLoading(false));
     } catch (e) {
       console.log(e);
     }
@@ -43,7 +40,7 @@ function Navbar() {
         <div className="flex gap-5 items-center">
           <div
             className="font-semibold cursor-pointer"
-            onClick={() => navigate(`/profile/${profile._id}`)}
+            onClick={() => navigate(`/profile/${profile?._id}`)}
           >
             <Avatar src={profile?.avatar?.url} />
           </div>

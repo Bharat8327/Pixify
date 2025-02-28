@@ -7,18 +7,19 @@ import CreatePost from '../../createPost/CreatePost';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile } from '../../redux/slice/postSlice';
 import { followAndUnfollow } from '../../redux/slice/feedSlice';
+import Follower from '../follower/Follower';
 
 function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userProfile = useSelector((items) => items.postsReducer.userProfile);
-  const myProfile = useSelector((items) => items.appconfigReducer.myProfile);
-  const feed = useSelector((state) => state.feedDataReducer.feedData);
+  const myProfile = useSelector((items) => items.appconfig.myProfile);
+  const feed = useSelector((state) => state.feedData.feedData);
+  const feedstatus = useSelector((state) => state.feedData.feedStatus);
+  const userProfile = useSelector((items) => items.posts.userProfile);
   const [user, setUser] = useState(false);
   const [follow, setFollow] = useState(false);
+  const [suggestion, setSuggestion] = useState(false);
   const params = useParams();
-
-  console.log(userProfile);
 
   useEffect(() => {
     dispatch(
@@ -28,7 +29,7 @@ function Profile() {
     );
     setFollow(feed?.following?.find((item) => item._id === params.userId));
     setUser(myProfile?._id === params.userId);
-  }, [myProfile, params.userId, feed]);
+  }, [myProfile, params.userId, feed, feedstatus]);
 
   const handleUserFollow = () => {
     dispatch(
@@ -36,6 +37,9 @@ function Profile() {
         userIdToFollow: params.userId,
       }),
     );
+  };
+  const handleSuggestion = () => {
+    setSuggestion(!suggestion);
   };
 
   return (
@@ -94,11 +98,23 @@ function Profile() {
             )}
             <button
               className="border-2 px-2  border-blue-400 text-blue-500 font-bold rounded-md cursor-pointer hover:bg-teal-100 active:bg-white"
-              onClick={() => navigate('/update')}
+              onClick={handleSuggestion}
             >
               <IoPersonAddSharp />
             </button>
           </div>
+          {suggestion && (
+            <div className="mt-7">
+              <h3 className="font-semibold mb-3 border-b-2 ">
+                Suggested For You
+              </h3>
+              <div>
+                {feed?.suggestions?.map((item) => (
+                  <Follower key={item.updatedAt} data={item} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

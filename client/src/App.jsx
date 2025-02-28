@@ -15,10 +15,9 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export const TOAST_SUCCESS = 'toast_success';
 export const TOAST_FAILURE = 'toast_failure';
-
 function App() {
-  const isLoading = useSelector((state) => state.appconfigReducer.isLoading);
-  const tostData = useSelector((state) => state.appconfigReducer.toastData);
+  const isLoading = useSelector((state) => state.appconfig.isLoading);
+  const tostData = useSelector((state) => state.appconfig.toastData);
   const loadingRef = useRef(null);
 
   useEffect(() => {

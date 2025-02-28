@@ -2,8 +2,8 @@ const User = require('../models/User');
 const { success, error } = require('../utils/responseWrapper');
 const Post = require('../models/Post');
 const cloudinary = require('cloudinary').v2;
-const {userPostMap} = require("../utils/userPostFormat");
-// need to do
+const { userPostMap } = require('../utils/userPostFormat');
+
 cloudinary.config({
   cloud_name: 'dbccqbdqz',
   api_key: '398291225275447',
@@ -15,12 +15,11 @@ const createPostController = async (req, res) => {
     const { caption, postImg } = req.body;
     const owner = req._id;
     if (!caption || !postImg) {
-      return res.send(error(400, 'caption and PostImg are required'));
+      return res.send(error(400, 'All fields are Required'));
     }
     const cloud = await cloudinary.uploader.upload(postImg, {
       folder: 'postImg',
     });
-    /* */
     const user = await User.findById(owner);
 
     const post = await Post.create({
@@ -31,7 +30,6 @@ const createPostController = async (req, res) => {
         url: cloud.secure_url,
       },
     });
-
     user.posts.push(post._id);
     await user.save();
     return res.send(success(200, { post }));

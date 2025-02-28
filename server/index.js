@@ -12,16 +12,20 @@ const cors = require('cors');
 dotenv.config('./env');
 
 const app = express();
-
 //middlewares
 app.use(express.json({ limit: '50mb' })); // Increase payload size limit
 app.use(express.urlencoded({ limit: '50mb', extended: true })); // Increase payload size limit for URL-encoded data
 app.use(morgan('common'));
 app.use(cookieParser());
+
+let origin  =  'http://localhost:5173';
+if(process.env.NODE_ENV =="production"){
+  origin = process.env.CORS_ORIGIN;
+}
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin,
   }),
 );
 
@@ -30,12 +34,11 @@ app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 app.use('/user', userRouter);
 app.get('/', (req, res) => {
-  res.status(200).send('Ok from server side');
+  res.status(200).send('server is start');
 });
-
 const Port = process.env.PORT;
 //databaseconnection
 dbConnect();
 app.listen(Port, (err, res) => {
-  console.log(`server listening is start on ${Port}`);
+  console.log(`server listening is start on ${process.env.PORT}`);
 });

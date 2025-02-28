@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import dummy from '../../assets/avatar.png';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { UpdateUserProfile } from '../../redux/slice/appConfigSlice';
+import {
+  DeleteAccount,
+  UpdateUserProfile,
+} from '../../redux/slice/appConfigSlice';
 
 function UpdateProfile() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const profile = useSelector((state) => state.appconfigReducer.myProfile);
+  const profile = useSelector((state) => state.appconfig.myProfile);
   const [userName, setUserName] = useState('');
   const [bio, setBio] = useState('');
   const [userImg, setUserImg] = useState('');
@@ -17,7 +21,15 @@ function UpdateProfile() {
     setUserImg(profile?.img);
   }, [profile]);
 
-  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(UpdateUserProfile({ userName, bio, userImg }));
+  };
+
+  const handleAccountDelte = () => {
+    dispatch(DeleteAccount({ body: profile, navigate }));
+    navigate('/login');
+  };
 
   const handleInpImg = (e) => {
     const file = e.target.files[0];
@@ -30,11 +42,6 @@ function UpdateProfile() {
     };
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(UpdateUserProfile({ userName, bio, userImg }));
-  };
-
   return (
     <div
       className="flex justify-center items-center bg-pink-100"
@@ -44,7 +51,7 @@ function UpdateProfile() {
         <div className="flex flex-col sm:flex-row gap-6 sm:gap-3 ">
           <div className="flex-1 text-center sm:text-left lg:text-center lg:flex  lg:items-center lg:justify-center">
             <div>
-              <h3 className="mb-2 sm:mt-4 font-bold text-2xl">
+              <h3 className="mb-2 sm:mt-4 font-bold text-xl">
                 {profile?.name[0].toUpperCase() + profile?.name.substring(1) ||
                   ''}
               </h3>
@@ -52,7 +59,7 @@ function UpdateProfile() {
                 <label htmlFor="img1">
                   <img
                     className="w-24 h-24 sm:w-30 sm:h-30 rounded-full mx-auto sm:mx-0 object-fit cursor-pointer border-dashed border-2 "
-                    src={profile?.avatar?.url || dummy}
+                    src={userImg || profile?.avatar?.url}
                     alt="Profile"
                   />
                 </label>
@@ -126,7 +133,7 @@ function UpdateProfile() {
                   Update
                 </button>
                 <button
-                  onClick={() => navigate('/profile/ram43')}
+                  onClick={() => navigate(`/profile/${profile._id}`)}
                   className="cursor-pointer mt-4 w-full sm:w-[40%] bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                 >
                   Cancel
@@ -135,7 +142,7 @@ function UpdateProfile() {
             </form>
             <div>
               <button
-                onClick={() => navigate('/login')}
+                onClick={handleAccountDelte}
                 className="cursor-pointer mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 active:bg-red-400"
               >
                 Delete Account

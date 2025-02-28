@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import Avatar from '../components/avatar/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../utils/axiosClients';
-import { setLoading } from '../redux/slice/appConfigSlice';
 import { getUserProfile } from '../redux/slice/postSlice';
+import { setLoading } from '../redux/slice/appConfigSlice';
 
 function CreatePost() {
   const dispatch = useDispatch();
   const [caption, setCaption] = useState('');
   const [postImg, setPostImg] = useState('');
-  const profile = useSelector((state) => state.appconfigReducer.myProfile);
+  const profile = useSelector((state) => state.appconfig.myProfile);
 
   const handleInpImg = (e) => {
     const file = e.target.files[0];
@@ -24,28 +24,25 @@ function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (caption && postImg) {
-      try {
-        dispatch(setLoading(true));
-        const result = await axiosClient.post('/posts/', {
-          caption,
-          postImg,
-        });
-        console.log('post created successfully ');
-        dispatch(
-          getUserProfile({
-            userId: profile?._id,
-          }),
-        );
-      } catch (error) {
-        console.log(error);
-      } finally {
-        dispatch(setLoading(false));
-        setCaption('');
-        setPostImg('');
-      }
-    } else {
-      alert('Please add a caption and an image.');
+    // if (caption && postImg) {
+    try {
+      const result = await axiosClient.post('/posts/', {
+        caption,
+        postImg,
+      });
+      dispatch(
+        getUserProfile({
+          userId: profile?._id,
+        }),
+      );
+    } catch (error) {
+      import('../redux/store/store').then(({ default: store }) => {
+        store.dispatch(setLoading(true));
+      });
+    } finally {
+      setCaption('');
+      setPostImg('');
+      // }
     }
   };
 

@@ -4,8 +4,8 @@ import feedDataReducer from '../slice/feedSlice';
 import postsReducer from '../slice/postSlice';
 export default configureStore({
   reducer: {
-    postsReducer,
-    appconfigReducer,
-    feedDataReducer,
+    appconfig: appconfigReducer,
+    feedData: feedDataReducer,
+    posts: postsReducer,
   },
 });

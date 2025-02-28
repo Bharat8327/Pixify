@@ -94,7 +94,6 @@ const refreshAcessTokenController = async (req, res) => {
     const accessToken = generateWebToken({ _id });
     return res.send(success(201, { accessToken }));
   } catch (e) {
-    console.log(e);
     return res.send(error(401, 'Invalid Refresh token'));
   }
 };

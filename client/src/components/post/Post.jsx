@@ -26,9 +26,6 @@ function Post({ post }) {
       }),
     );
   }
-
-  console.log('by feed', post);
-
   return (
     <div className="border-1 border-green-300 mb-[10px] rounded-2xl">
       <div
