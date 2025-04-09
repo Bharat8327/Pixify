@@ -2,22 +2,22 @@ import React from 'react';
 import '../../../src/index.css';
 import Avatar from '../avatar/Avatar';
 import { BiLogOutCircle } from 'react-icons/bi';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../../utils/axiosClients';
 import { KEY_ACCESS_TOKEN, removeItem } from '../../utils/localStorageManager';
 import { setTheme } from '../../redux/slice/appConfigSlice';
 import { MdDarkMode } from 'react-icons/md';
+import { useLocation } from 'react-router-dom';
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const profile = useSelector((state) => state.appconfig.myProfile);
   const theme = useSelector((state) => state.appconfig.theme);
   const dispatch = useDispatch();
   const handleTheme = () => {
-    console.log('clicked');
-
     dispatch(setTheme(!theme));
   };
 
@@ -99,8 +99,17 @@ function Navbar() {
                 setIsMenuOpen(false);
               }}
             >
-              Theme
+              {theme ? 'white' : 'black'}
             </li>
+           {location.pathname!=='/user' &&<li
+              className="cursor-pointer text-red-500"
+              onClick={() => {
+                setIsMenuOpen(false);
+              }}
+            >
+              <Link to="/user"> un/Follow</Link>
+            </li>}
+
             <li
               className="cursor-pointer text-red-500"
               onClick={() => {

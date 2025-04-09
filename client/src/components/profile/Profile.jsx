@@ -102,9 +102,15 @@ function Profile() {
               <h3 className="font-semibold mb-3 border-b-2">
                 Suggested For You
               </h3>
-              <div>
+              <div
+                className={`overflow-y-auto ${
+                  feed?.suggestions?.length > 4 ? 'h-40' : ''
+                }`}
+              >
                 {feed?.suggestions?.map((item) => (
-                  <Follower key={item.updatedAt} data={item} />
+                  <div key={item.updatedAt} className="rounded-lg mb-2 p-3 ">
+                    <Follower data={item} />
+                  </div>
                 ))}
               </div>
             </div>

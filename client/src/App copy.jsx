@@ -12,7 +12,6 @@ import { useEffect, useRef } from 'react';
 import LoadingBar from 'react-top-loading-bar';
 import NotLoggedIn from './components/NotLoggedIn';
 import toast, { Toaster } from 'react-hot-toast';
-import AllUser from './components/allUser/AllUser';
 
 export const TOAST_SUCCESS = 'toast_success';
 export const TOAST_FAILURE = 'toast_failure';
@@ -56,7 +55,6 @@ function App() {
             <Route path="/" element={<Feed />} />
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/update" element={<UpdateProfile />} />
-            <Route path="/user" element={<AllUser />} />
           </Route>
         </Route>
         <Route element={<NotLoggedIn />}>

@@ -28,7 +28,7 @@ function Feed() {
 
         {/* Right Part (Fixed, Not Scrollable) */}
         <div className="flex-1 md:w-1/3 hidden lg:block">
-          <div>
+          <div className=''>
             <h3 className="font-semibold mb-3 border-b-2">You Are Following</h3>
             <div>
               {feed?.following?.map((item, idx) => (
