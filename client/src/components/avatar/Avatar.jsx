@@ -6,9 +6,9 @@ function Avatar({src}) {
   const profile = useSelector((state) => state.appconfig.myProfile);
 
   return (
-    <div className="w-50px h-1px border-2 rounded-full cursor-pointer">
+    <div className="w-50px h-10  rounded-full cursor-pointer">
       <img
-        className="w-9 h-9 bg-orange-300 rounded-full active:bg-white object-cover"
+        className="w-9 h-9  rounded-full active:bg-white object-cover"
         src={src?src:userImg}
         alt="avatar"
       />

@@ -42,59 +42,80 @@ function CreatePost() {
     } finally {
       setCaption('');
       setPostImg('');
-      // }
     }
   };
 
   return (
-    <div className="flex border-1 rounded-2xl gap-10 my-2 p-4">
-      <div>
-        <Avatar src={profile?.avatar?.url} />
-      </div>
-      <div className="flex-1">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            className="mt-1 block w-full px-2 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            type="text"
-            placeholder="Enter caption"
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-          />
-          <div className="flex justify-center ">
-            {postImg && (
-              <img
-                className="w-[90%] h-120 rounded-md object-cover aspect-16/8 border-2 border-amber-300"
-                src={postImg}
-                alt="Post"
-              />
-            )}
-          </div>
-          <div>
-            <div className="flex justify-between">
-              <label
-                htmlFor="img1"
-                className="w-[45%] h-10 flex cursor-pointer items-center justify-center bg-gray-400 rounded-md active:bg-gray-400 text-gray-600 hover:bg-gray-300 "
-              >
-                Create Post
-              </label>
-              <button
-                type="submit"
-                className="cursor-pointer  w-[45%] bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-400  focus:outline-none active:bg-indigo-700 focus:ring-1 focus:ring-offset-2 focus:ring-indigo-400"
-              >
-                Upload
-              </button>
-            </div>
-            <input
-              type="file"
-              accept="image/*"
-              id="img1"
-              className="hidden"
-              onChange={handleInpImg}
-            />
-          </div>
-        </form>
-      </div>
+    <div className="flex flex-col md:flex-row border-1 rounded-2xl gap-4 my-2 p-4">
+    {/* Profile Image */}
+    <div className="flex justify-center items-center mb-4 md:mb-0">
+      <Avatar src={profile?.avatar?.url} className="w-16 h-16 rounded-full" />
     </div>
+  
+    {/* Form Section */}
+    <div className="flex-1 space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Input Title Field */}
+        <input
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          type="text"
+          placeholder="Enter caption"
+          required
+          
+          value={caption}
+          onChange={(e) => setCaption(e.target.value)}
+        />
+  
+        {/* Image Upload Box */}
+        <div className="flex justify-center">
+          {postImg ? (
+            <img
+              className="w-full max-w-full max-h-96 object-contain rounded-md border-2 border-amber-300"
+              src={postImg}
+              alt="Post"
+            />
+          ) : (
+            <label
+              htmlFor="img1"
+              className="w-full h-40 flex items-center justify-center border-2 border-dashed border-gray-400 rounded-md cursor-pointer hover:bg-gray-100"
+            >
+              <span className="text-gray-500">Upload Image</span>
+            </label>
+          )}
+        </div>
+  
+        {/* Buttons */}
+        <div className="flex justify-between">
+          {!postImg && (
+            <label
+              htmlFor="img1"
+              className="w-[100%] h-10 flex items-center justify-center bg-gray-400 rounded-md cursor-pointer text-white hover:bg-gray-300"
+            >
+              Create Post
+            </label>
+          )}
+  
+          {postImg && (
+            <button
+              type="submit"
+              className="w-[100%] bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-400 focus:outline-none active:bg-indigo-700 focus:ring-1 focus:ring-offset-2 focus:ring-indigo-400"
+            >
+              Upload
+            </button>
+          )}
+        </div>
+  
+        <input
+          type="file"
+          accept="image/*"
+          id="img1"
+          className="hidden"
+          onChange={handleInpImg}
+        />
+      </form>
+    </div>
+  </div>
+  
   );
 }
 

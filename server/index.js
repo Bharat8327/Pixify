@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 // Configuration
-dotenv.config('./env');
+dotenv.config();
 
 const app = express();
 //middlewares
@@ -18,8 +18,8 @@ app.use(express.urlencoded({ limit: '50mb', extended: true })); // Increase payl
 app.use(morgan('common'));
 app.use(cookieParser());
 
-let origin  =  'http://localhost:5173';
-if(process.env.NODE_ENV =="production"){
+let origin = 'http://localhost:5173';
+if (process.env.NODE_ENV == 'production') {
   origin = process.env.CORS_ORIGIN;
 }
 app.use(
@@ -33,6 +33,7 @@ app.use(
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 app.use('/user', userRouter);
+
 app.get('/', (req, res) => {
   res.status(200).send('server is start');
 });

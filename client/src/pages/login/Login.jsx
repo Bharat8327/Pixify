@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosClients from '../../utils/axiosClients';
 import { KEY_ACCESS_TOKEN, setItem } from '../../utils/localStorageManager';
+import { useSelector } from 'react-redux';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const theme = useSelector((state) => state.appconfig.theme);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,8 +24,12 @@ function Login() {
     }
   }
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
+    <div
+      className={`flex items-center justify-center min-h-screen   ${
+        theme ? 'bg-black text-white' : 'bg-white text-black'
+      }`}
+    >
+      <div className="w-full max-w-md p-8 space-y-6 rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">Login</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>

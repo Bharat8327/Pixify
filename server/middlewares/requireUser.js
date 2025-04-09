@@ -21,7 +21,6 @@ module.exports = async (req, res, next) => {
     if (!user) {
       return res.send(error(404, 'user not found create a account'));
     }
-
     next();
   } catch (e) {
     return res.send(error(401, 'invalid access key'));

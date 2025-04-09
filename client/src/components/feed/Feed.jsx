@@ -13,19 +13,22 @@ function Feed() {
     dispatch(getFeedData());
   }, [dispatch, feedstatus]);
   return (
-    <div className="w-[70%] m-auto">
-      <div className="flex w-[100%] m-auto gap-3 ">
-        <div className="flex-2 ">
+    <div className="w-full lg:px-5">
+      <div className="flex flex-wrap md:flex-nowrap w-full">
+        {/* Left Part (Scrollable) */}
+        <div className="flex-1 md:w-2/3 lg:overflow-y-auto h-screen lg:mr-10">
           {feed?.posts?.length === 0 ? (
-            <h1 className="text-2xl text-red-500 text-center ">
-              Post are Not Avilable
+            <h1 className="text-2xl text-red-500 text-center">
+              Posts are Not Available
             </h1>
           ) : (
-            feed?.posts?.map((item, idx) => <Post key={idx + 1} post={item} />)
+            feed?.posts?.map((item, idx) => <Post key={idx} post={item} />)
           )}
         </div>
-        <div className="flex-1">
-          <div className="">
+
+        {/* Right Part (Fixed, Not Scrollable) */}
+        <div className="flex-1 md:w-1/3 hidden lg:block">
+          <div>
             <h3 className="font-semibold mb-3 border-b-2">You Are Following</h3>
             <div>
               {feed?.following?.map((item, idx) => (
@@ -33,10 +36,9 @@ function Feed() {
               ))}
             </div>
           </div>
-          <div className="mt-8 ">
-            <h3 className="font-semibold mb-3 border-b-2 ">
-              Suggested For You
-            </h3>
+
+          <div className="mt-8">
+            <h3 className="font-semibold mb-3 border-b-2">Suggested For You</h3>
             <div>
               {feed?.suggestions?.map((item) => (
                 <Follower key={item.updatedAt} data={item} />

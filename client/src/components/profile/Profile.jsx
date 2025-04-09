@@ -43,69 +43,63 @@ function Profile() {
   };
 
   return (
-    <div className="w-[80%] m-auto ">
-      <div className="flex w-[90%] m-auto gap-3  ">
-        <div className="flex-2  ">
-          {user && <CreatePost />}
-          {userProfile?.posts?.map((post) => (
-            <Post key={post._id} post={post} />
-          ))}
-        </div>
-        <div className="flex-1 w-[30%]  text-center  ">
-          <div className="flex items-center font-bold text-2xl mb-7 ">
+    <div className="w-full max-w-screen-xl mx-auto  sm:px-6 lg:px-8">
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Left Sidebar */}
+        <div className="flex-1 text-center px-2 lg:text-left">
+          <div className="flex items-center font-bold text-2xl mb-4">
             <h3>
-              <span className="text-3xl text-blue-400">p</span>
-              <sup className="text-xl">rofile</sup> :-{' '}
-              <span className="animate-pulse text-blue-400">
-                {userProfile?.name}
-              </span>
+              <span className=" text-blue-400">{userProfile?.name}</span>
             </h3>
           </div>
-          <div className="flex items-center ">
-            <img
-              className="w-30 h-30 rounded-sm"
-              src={userProfile?.avatar?.url || dummy}
-              alt=""
-            />
-            <div className="font-bold flex-col gap-5 justify-between">
-              <div className="flex gap-5 pl-9">
-                <h2>{userProfile?.posts?.length || 0} Posts</h2>
-                <h2>{userProfile?.followers?.length || 0} Followers</h2>
-                <h2>{userProfile?.following?.length || 0} Following</h2>
-              </div>
+
+          <div className="flex sm:flex-col items-center lg:items-start mb-2 justify-between ">
+            <div>
+              <img
+                className="sm:w-40 sm:h-40 w-12 h-[30%] rounded-full mb-1 sm:mb-3"
+                src={userProfile?.avatar?.url || dummy}
+                alt="Profile Avatar"
+              />
+            </div>
+            <div className=" font-bold flex sm:gap-15 lg:gap-4 gap-3 flex-wrap justify-center lg:justify-start">
+              <h2>{userProfile?.posts?.length || 0} Posts</h2>
+              <h2>{userProfile?.followers?.length || 0} Followers</h2>
+              <h2>{userProfile?.following?.length || 0} Following</h2>
             </div>
           </div>
-          <div className="flex font-bold my-2">
+
+          <div className="text-sm  my-2  text-left">
             <p>Bio: {userProfile?.bio}</p>
           </div>
-          <div className="mt-5 flex w-full justify-items-end gap-5 pl-4 ">
-            {!user && (
+
+          <div className="mt-5 flex flex-row gap-4 justify-center md: lg:justify-start">
+            {!user ? (
               <button
                 onClick={handleUserFollow}
-                className="bg-blue-400 w-40 text-white font-bold px-6 py-2 border-none rounded-md hover:bg-blue-500 active:bg-blue-300 cursor-pointer"
+                className="bg-blue-400 text-white font-bold px-6 py-2 rounded-md hover:bg-blue-500 active:bg-blue-300 cursor-pointer w-full lg:w-auto"
               >
-                {follow ? 'Unfollow' : 'follow'}
+                {follow ? 'Unfollow' : 'Follow'}
               </button>
-            )}
-
-            {user && (
+            ) : (
               <button
-                className="border-2 px-2 w-40 border-blue-400 text-blue-500 font-bold rounded-md cursor-pointer hover:bg-teal-100 active:bg-white"
                 onClick={() => navigate('/update')}
+                className="border-2 px-4 py-2 border-blue-400 text-blue-500 font-bold rounded-md hover:bg-teal-100 active:bg-white cursor-pointer w-full lg:w-auto"
               >
                 Update Profile
               </button>
             )}
+
             <button
-              className="border-2 px-2  border-blue-400 text-blue-500 font-bold rounded-md cursor-pointer hover:bg-teal-100 active:bg-white"
               onClick={handleSuggestion}
+              className="border-2 lg:px-4 lg:py-2 px-2 border-blue-400 text-blue-500 font-bold rounded-md hover:bg-teal-100 active:bg-white cursor-pointer t  w-10 sm:w-auto"
             >
               <IoPersonAddSharp />
             </button>
           </div>
+
           {suggestion && (
             <div className="mt-7">
-              <h3 className="font-semibold mb-3 border-b-2 ">
+              <h3 className="font-semibold mb-3 border-b-2">
                 Suggested For You
               </h3>
               <div>
@@ -115,6 +109,14 @@ function Profile() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Right Content */}
+        <div className="flex-2 w-full lg:w-2/3">
+          {user && <CreatePost />}
+          {userProfile?.posts?.map((post) => (
+            <Post key={post._id} post={post} />
+          ))}
         </div>
       </div>
     </div>

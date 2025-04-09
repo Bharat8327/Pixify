@@ -4,7 +4,7 @@ import Profile from './components/profile/Profile';
 import RequireUser from './components/RequireUser';
 import UpdateProfile from './components/updateProfile/UpdateProfile';
 import Home from './pages/homepage/Home';
-import Login from './pages/login/login';
+import Login from './pages/login/Login';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Signup from './pages/signup/signup';
 import { Routes, Route } from 'react-router-dom';
@@ -18,6 +18,7 @@ export const TOAST_FAILURE = 'toast_failure';
 function App() {
   const isLoading = useSelector((state) => state.appconfig.isLoading);
   const tostData = useSelector((state) => state.appconfig.toastData);
+
   const loadingRef = useRef(null);
 
   useEffect(() => {

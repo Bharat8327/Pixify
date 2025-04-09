@@ -42,6 +42,7 @@ export const DeleteAccount = createAsyncThunk(
     }
   },
 );
+
 const appconfigSlice = createSlice({
   name: 'appconfig',
   initialState: {
@@ -49,6 +50,7 @@ const appconfigSlice = createSlice({
     toastData: {},
     myProfile: null,
     delete: false,
+    theme: true,
   },
   reducers: {
     setLoading: (state, action) => {
@@ -56,6 +58,9 @@ const appconfigSlice = createSlice({
     },
     showToast: (state, action) => {
       state.toastData = action.payload;
+    },
+    setTheme: (state, action) => {
+      state.theme = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -74,4 +79,4 @@ const appconfigSlice = createSlice({
 });
 
 export default appconfigSlice.reducer;
-export const { setLoading, showToast } = appconfigSlice.actions;
+export const { setLoading, showToast, setTheme } = appconfigSlice.actions;

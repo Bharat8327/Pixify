@@ -6,11 +6,20 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../../utils/axiosClients';
 import { KEY_ACCESS_TOKEN, removeItem } from '../../utils/localStorageManager';
+import { setTheme } from '../../redux/slice/appConfigSlice';
+import { MdDarkMode } from 'react-icons/md';
 
 function Navbar() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const profile = useSelector((state) => state.appconfig.myProfile);
+  const theme = useSelector((state) => state.appconfig.theme);
+  const dispatch = useDispatch();
+  const handleTheme = () => {
+    console.log('clicked');
+
+    dispatch(setTheme(!theme));
+  };
 
   const handleLogOut = async () => {
     try {
@@ -22,14 +31,24 @@ function Navbar() {
     }
   };
 
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <div className="border-b-2 var(--border-color)  h-[50px] fixed top-0 w-full bg-white  ">
-      <div className="flex max-w-[960px] h-[100%]  justify-between items-center mx-auto  ">
+    <div
+      className={`border-b-2 var(--border-color) h-[50px] fixed top-0 w-full ${
+        theme ? 'bg-black text-white' : 'bg-white text-black'
+      }`}
+    >
+      <div className="flex max-w-[960px] h-[100%] justify-between items-center mx-auto">
         <h1
           className="text-2xl font-semibold cursor-pointer"
           onClick={() => navigate('/')}
         >
-          <span className=" text-cyan-500 hover:text-red-400 active:hover:text-black">
+          <span className="text-cyan-500 hover:text-red-400 active:hover:text-black">
             <span className="text-pink-400">p</span>
             <sup>atel</sup>
             <sub className="text-blue-400">
@@ -37,7 +56,7 @@ function Navbar() {
             </sub>
           </span>
         </h1>
-        <div className="flex gap-5 items-center">
+        <div className="hidden md:flex gap-5 items-center">
           <div
             className="font-semibold cursor-pointer"
             onClick={() => navigate(`/profile/${profile?._id}`)}
@@ -47,8 +66,53 @@ function Navbar() {
           <div className="text-4xl cursor-pointer hover:text-red-500 active:text-black">
             <BiLogOutCircle onClick={handleLogOut} />
           </div>
+          <div onClick={handleTheme}>
+            <MdDarkMode className="text-4xl" />
+          </div>
+        </div>
+        <div className="md:hidden flex items-center">
+          <button className="text-3xl focus:outline-none" onClick={toggleMenu}>
+            ☰
+          </button>
         </div>
       </div>
+      {isMenuOpen && (
+        <div
+          className={`absolute top-[50px] right-0 w-full  ${
+            theme ? 'bg-black text-white' : 'bg-white text-black'
+          } md:hidden`}
+        >
+          <ul className="flex flex-col items-center gap-4 py-4">
+            <li
+              className="cursor-pointer"
+              onClick={() => {
+                navigate(`/profile/${profile?._id}`);
+                setIsMenuOpen(false);
+              }}
+            >
+              Profile
+            </li>
+            <li
+              className="cursor-pointer"
+              onClick={() => {
+                handleTheme();
+                setIsMenuOpen(false);
+              }}
+            >
+              Theme
+            </li>
+            <li
+              className="cursor-pointer text-red-500"
+              onClick={() => {
+                handleLogOut();
+                setIsMenuOpen(false);
+              }}
+            >
+              Logout
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

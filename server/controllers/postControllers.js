@@ -3,7 +3,8 @@ const { success, error } = require('../utils/responseWrapper');
 const Post = require('../models/Post');
 const cloudinary = require('cloudinary').v2;
 const { userPostMap } = require('../utils/userPostFormat');
-
+require('dotenv').config();
+console.log(process.env.CLOUDINARY_CLOUD_NAME);
 cloudinary.config({
   cloud_name: 'dbccqbdqz',
   api_key: '398291225275447',

@@ -11,6 +11,7 @@ function UpdateProfile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.appconfig.myProfile);
+  const theme = useSelector((state) => state.appconfig.theme);
   const [userName, setUserName] = useState('');
   const [bio, setBio] = useState('');
   const [userImg, setUserImg] = useState('');
@@ -43,36 +44,38 @@ function UpdateProfile() {
   };
 
   return (
-    <div
-      className="flex justify-center items-center bg-pink-100"
-      style={{ height: 'calc(100vh - 60px)' }}
-    >
-      <div className="w-full sm:w-4/5 md:w-2/5 lg:w-3/5 bg-pink-200 p-6 rounded-lg shadow-lg">
-        <div className="flex flex-col sm:flex-row gap-6 sm:gap-3 ">
-          <div className="flex-1 text-center sm:text-left lg:text-center lg:flex  lg:items-center lg:justify-center">
-            <div>
-              <h3 className="mb-2 sm:mt-4 font-bold text-xl">
-                {profile?.name[0].toUpperCase() + profile?.name.substring(1) ||
-                  ''}
-              </h3>
-              <div>
-                <label htmlFor="img1">
-                  <img
-                    className="w-24 h-24 sm:w-30 sm:h-30 rounded-full mx-auto sm:mx-0 object-fit cursor-pointer border-dashed border-2 "
-                    src={userImg || profile?.avatar?.url}
-                    alt="Profile"
-                  />
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="img1"
-                  className="hidden"
-                  onChange={handleInpImg}
+    <div className="flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8">
+      <div
+        className={`w-full sm:w-4/5 md:w-3/5 lg:w-2/3 p-6 rounded-lg shadow-lg ${
+          theme ? 'bg-black text-white' : 'bg-white text-black'
+        }`}
+      >
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left Profile Section (Responsive) */}
+          <div className="flex flex-col lg:flex-col items-center lg:items-start gap-4 lg:gap-6">
+            <h3 className="mb-2 font-bold text-xl text-center lg:text-left">
+              {profile?.name[0].toUpperCase() + profile?.name.substring(1) ||
+                ''}
+            </h3>
+            <div className="flex flex-col items-center lg:items-start gap-4">
+              <label htmlFor="img1" className="cursor-pointer">
+                <img
+                  className="w-24 h-24 sm:w-30 sm:h-30 rounded-full border-dashed border-2 object-cover"
+                  src={userImg || profile?.avatar?.url}
+                  alt="Profile"
                 />
-              </div>
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="img1"
+                className="hidden"
+                onChange={handleInpImg}
+              />
             </div>
           </div>
+
+          {/* Right Form Section */}
           <div className="flex-1">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -92,6 +95,7 @@ function UpdateProfile() {
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
+
               <div>
                 <label
                   htmlFor="bio"
@@ -109,10 +113,11 @@ function UpdateProfile() {
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
+
               <div>
                 <label
                   htmlFor="img"
-                  className=" block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700"
                 >
                   Profile Image
                 </label>
@@ -124,26 +129,30 @@ function UpdateProfile() {
                   className="cursor-pointer mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                 />
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
+
+              {/* Buttons Section */}
+              <div className="flex flex-col lg:flex-row gap-4">
                 <button
                   type="submit"
-                  onSubmit={handleSubmit}
-                  className="cursor-pointer mt-4 w-full sm:w-[60%] bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500"
                 >
                   Update
                 </button>
                 <button
+                  type="button"
                   onClick={() => navigate(`/profile/${profile._id}`)}
-                  className="cursor-pointer mt-4 w-full sm:w-[40%] bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                  className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-400 focus:ring-2 focus:ring-pink-500"
                 >
                   Cancel
                 </button>
               </div>
             </form>
-            <div>
+
+            {/* Delete Account Button */}
+            <div className="mt-4">
               <button
                 onClick={handleAccountDelte}
-                className="cursor-pointer mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 active:bg-red-400"
+                className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:ring-2 focus:ring-red-600 active:bg-red-400"
               >
                 Delete Account
               </button>

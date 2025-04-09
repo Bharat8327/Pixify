@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import dummy from '../../assets/dummy.jpg';
-import { IoIosHeartHalf } from 'react-icons/io';
 import { FaRegComment } from 'react-icons/fa6';
-import { FaHeart } from 'react-icons/fa';
+import { FaEllipsisH, FaHeart } from 'react-icons/fa';
 import Avatar from '../avatar/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { likeAndUnlike } from '../../redux/slice/postSlice';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '../../redux/slice/appConfigSlice';
 import { TOAST_SUCCESS } from '../../App';
+import { BiLogoTelegram } from 'react-icons/bi';
+import { HiOutlineSave } from 'react-icons/hi';
 
 function Post({ post }) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   async function handleLiked() {
@@ -26,46 +28,95 @@ function Post({ post }) {
       }),
     );
   }
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
   return (
-    <div className="border-1 border-green-300 mb-[10px] rounded-2xl">
-      <div
-        className="flex items-center gap-3 p-2 "
-        onClick={() => {
-          navigate(`/profile/${post.owner._id}`);
-        }}
-      >
-        <Avatar src={post?.owner?.avatar?.url} />
-        <h4 className="font-bold cursor-pointer">{post?.owner?.name}</h4>
+    <div className="mb-4 ">
+      {/* Header */}
+      <div className="flex justify-between items-center gap-4 px-4 py-2">
+        <div
+          className="flex gap-3 items-center cursor-pointer"
+          onClick={() => navigate(`/profile/${post.owner._id}`)}
+        >
+          <Avatar
+            src={post?.owner?.avatar?.url}
+            className="w-10 h-10 sm:w-12 sm:h-12"
+          />
+          <h4 className="font-bold text-sm sm:text-base md:text-lg">
+            {post?.owner?.name}
+          </h4>
+        </div>
+        <div>
+          <FaEllipsisH className="text-xl sm:text-2xl cursor-pointer" />
+        </div>
       </div>
+
+      {/* Post Image */}
       <div>
         <img
-          className="w-[100%] h-[100%] rounded-2xl object-cover px-2 pb-2"
+          className="w-full h-auto   object-cover cursor-pointer select-none 
+                   md:h-120 lg:h-160"
           src={post?.image?.url}
-          alt=""
+          alt="Post"
+          onDoubleClick={handleLiked}
         />
       </div>
 
-      <div className="p-3  ">
-        <div className="flex items-center gap-1 ">
-          {post?.isLiked ? (
-            <FaHeart
-              className="text-4xl cursor-pointer text-red-400"
-              onClick={handleLiked}
-            />
-          ) : (
-            <IoIosHeartHalf
-              className="text-4xl cursor-pointer"
-              onClick={handleLiked}
-            />
-          )}
-          <h4 className="font-semibold mr-2">{`${
-            post?.likesCount === 0 ? '' : post?.likesCount + ' likes'
-          }`}</h4>
-          <FaRegComment className="text-2xl cursor-pointer" />
+      {/* Post Actions */}
+      <div className="px-4 py-2">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            {post?.isLiked ? (
+              <FaHeart
+                className="text-2xl text-red-400 cursor-pointer"
+                onClick={handleLiked}
+              />
+            ) : (
+              <FaHeart
+                className="text-2xl cursor-pointer"
+                onClick={handleLiked}
+              />
+            )}
+            <FaRegComment className="text-2xl cursor-pointer" />
+            <BiLogoTelegram className="text-2xl cursor-pointer" />
+          </div>
+          <HiOutlineSave className="text-2xl cursor-pointer" />
         </div>
-        <div className="  px-2">
-          <p className="mt-1">{post?.caption}</p>
-          <h6 className="text-[#aaa] mt-1">{post?.timeago}</h6>
+
+        {/* Likes & Caption */}
+        <div className="mt-2">
+          <h4 className="font-semibold text-sm md:text-base">
+            {post?.likesCount === 0 ? '' : `${post?.likesCount} likes`}
+          </h4>
+
+          <div className="gap-1 mt-1 text-sm md:text-base">
+            {isExpanded || post?.caption.length < 100 ? (
+              <p>{post?.caption}</p>
+            ) : (
+              <p>
+                {post?.caption.slice(0, 100)}...
+                <span
+                  onClick={toggleExpand}
+                  className="text-blue-500 cursor-pointer"
+                >
+                  more
+                </span>
+              </p>
+            )}
+            {isExpanded && (
+              <span
+                onClick={toggleExpand}
+                className="text-blue-700 cursor-pointer"
+              >
+                less
+              </span>
+            )}
+          </div>
+
+          <h6 className="text-gray-500 mt-1 font-semibold text-xs md:text-sm">
+            {post?.timeago}
+          </h6>
         </div>
       </div>
     </div>
