@@ -8,7 +8,7 @@ import {
 import { TOAST_FAILURE } from '../App';
 import { setLoading, showToast } from '../redux/slice/appConfigSlice';
 
-const baseURL = 'https://fronted-dev.onrender.com';
+const baseURL = 'http://localhost:8696';
 
 const axiosClient = axios.create({
   baseURL,
