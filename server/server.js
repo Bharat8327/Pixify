@@ -37,7 +37,7 @@ app.use('/user', userRouter);
 app.get('/', (req, res) => {
   res.status(200).send('server is start');
 });
-const Port = process.env.PORT;
+const Port = process.env.PORT || 4000 ;
 //databaseconnection
 dbConnect();
 app.listen(Port, (err, res) => {
