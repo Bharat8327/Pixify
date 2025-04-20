@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json({ limit: '50mb' })); // Increase payload size limit
 app.use(express.urlencoded({ limit: '50mb', extended: true })); // Increase payload size limit for URL-encoded data
 app.use(morgan('common'));
-app.use(cookieParser());
+app.use(cookieParser());s
 
 let origin = 'https://fronted-dev.onrender.com';
 
