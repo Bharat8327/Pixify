@@ -18,10 +18,8 @@ app.use(express.urlencoded({ limit: '50mb', extended: true })); // Increase payl
 app.use(morgan('common'));
 app.use(cookieParser());
 
-let origin = 'https://cashinp-plbackend.onrender.com';
-if (process.env.NODE_ENV == 'production') {
-  origin = process.env.CORS_ORIGIN;
-}
+let origin = 'https://fronted-dev.onrender.com';
+
 app.use(
   cors({
     credentials: true,
