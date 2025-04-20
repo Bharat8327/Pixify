@@ -18,7 +18,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true })); // Increase payl
 app.use(morgan('common'));
 app.use(cookieParser());
 
-let origin = 'http://localhost:5173';
+let origin = 'https://cashinp-plbackend.onrender.com';
 if (process.env.NODE_ENV == 'production') {
   origin = process.env.CORS_ORIGIN;
 }
@@ -37,7 +37,7 @@ app.use('/user', userRouter);
 app.get('/', (req, res) => {
   res.status(200).send('server is start');
 });
-const Port = process.env.PORT || 4000 ;
+const Port = process.env.PORT || 4000;
 //databaseconnection
 dbConnect();
 app.listen(Port, (err, res) => {

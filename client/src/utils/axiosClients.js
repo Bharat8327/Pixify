@@ -8,7 +8,7 @@ import {
 import { TOAST_FAILURE } from '../App';
 import { setLoading, showToast } from '../redux/slice/appConfigSlice';
 
-const baseURL = 'http://localhost:8696';
+const baseURL = 'https://cashinp-plbackend.onrender.com';
 
 const axiosClient = axios.create({
   baseURL,
