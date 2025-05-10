@@ -49,11 +49,12 @@ function Navbar() {
           onClick={() => navigate('/')}
         >
           <span className="text-cyan-500 hover:text-red-400 active:hover:text-black">
-            <span className="text-pink-400">p</span>
+            {/* <span className="text-pink-400">p</span>
             <sup>atel</sup>
             <sub className="text-blue-400">
               Brother'<sup className="text-yellow-400">s</sup>
-            </sub>
+            </sub> */}
+            Pixify
           </span>
         </h1>
         <div className="hidden md:flex gap-5 items-center">
@@ -101,14 +102,16 @@ function Navbar() {
             >
               {theme ? 'white' : 'black'}
             </li>
-           {location.pathname!=='/user' &&<li
-              className="cursor-pointer text-red-500"
-              onClick={() => {
-                setIsMenuOpen(false);
-              }}
-            >
-              <Link to="/user"> un/Follow</Link>
-            </li>}
+            {location.pathname !== '/user' && (
+              <li
+                className="cursor-pointer text-red-500"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                }}
+              >
+                <Link to="/user"> un/Follow</Link>
+              </li>
+            )}
 
             <li
               className="cursor-pointer text-red-500"
