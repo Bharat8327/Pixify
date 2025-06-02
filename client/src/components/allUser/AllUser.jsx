@@ -5,12 +5,10 @@ import { getFeedData } from '../../redux/slice/feedSlice';
 
 function AllUser() {
   const feed = useSelector((state) => state.feedData.feedData);
-  console.log(feed);
   const dispatch = useDispatch();
 
   const feedstatus = useSelector((state) => state.feedData.feedStatus);
-    console.log(location.pathname.includes('user'));
-    
+
   useEffect(() => {
     dispatch(getFeedData());
   }, [feedstatus]);

@@ -18,7 +18,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true })); // Increase payl
 app.use(morgan('common'));
 app.use(cookieParser());
 
-let origin = 'https://fronted-dev.onrender.com';
+const origin = 'https://fronted-dev.onrender.com' || 'http://localhost:5173';
 
 app.use(
   cors({
