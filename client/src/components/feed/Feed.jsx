@@ -30,7 +30,7 @@ function Feed() {
                 and updates.
               </p>
               <button
-                onClick={() => navigate('/follow')}
+                onClick={() => navigate('/user')}
                 className="bg-blue-600 hover:bg-blue-700 active:bg-blue-500 focus:ring-4 focus:ring-blue-300 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-colors"
               >
                 Explore Premium Users
