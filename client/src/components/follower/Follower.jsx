@@ -36,7 +36,7 @@ function Follower({ data }) {
           onClick={handleUserFollow}
           className="bg-blue-400  text-white font-bold px-6 py-2 border-none rounded-md hover:bg-blue-500 active:bg-blue-300 cursor-pointer"
         >
-          {follow ? <span>Unfollow</span> : <span>Following</span>}
+          {follow ? <span>Unfollow</span> : <span>Follow</span>}
         </button>
       </div>
     </div>
