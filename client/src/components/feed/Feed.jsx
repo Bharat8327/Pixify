@@ -3,9 +3,11 @@ import Post from '../post/Post';
 import Follower from '../follower/Follower';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFeedData } from '../../redux/slice/feedSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Feed() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const feed = useSelector((state) => state.feedData.feedData);
   const feedstatus = useSelector((state) => state.feedData.feedStatus);
 
@@ -28,7 +30,7 @@ function Feed() {
                 and updates.
               </p>
               <button
-                onClick={() => router.push('/follow')}
+                onClick={() => navigate('/follow')}
                 className="bg-blue-600 hover:bg-blue-700 active:bg-blue-500 focus:ring-4 focus:ring-blue-300 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-colors"
               >
                 Explore Premium Users
