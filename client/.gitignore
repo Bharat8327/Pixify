@@ -7,24 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directories
 node_modules
 dist
-dist-ssr
-*.local
+build
 
-# Ignore environment variable files
+# Ignore environment files
 .env
 .env.*
+!.env.example  # Keep a sample file for reference
 
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS/System files
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
 
+# Editor settings
+.vscode/
+.idea
