@@ -19,9 +19,21 @@ function Feed() {
         {/* Left Part (Scrollable, scrollbar hidden) */}
         <div className="flex-1 md:w-2/3 lg:overflow-y-auto h-screen lg:mr-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {feed?.posts?.length === 0 ? (
-            <h1 className="text-2xl text-red-500 text-center">
-              Posts are Not Available
-            </h1>
+            <div className="max-w-md text-center bg-white rounded-3xl shadow-xl p-10">
+              <h1 className="text-3xl font-extrabold text-blue-600 mb-4">
+                Your Feed is Empty
+              </h1>
+              <p className="text-gray-600 text-lg mb-8">
+                Follow premium users to fill your feed with exclusive content
+                and updates.
+              </p>
+              <button
+                onClick={() => router.push('/follow')}
+                className="bg-blue-600 hover:bg-blue-700 active:bg-blue-500 focus:ring-4 focus:ring-blue-300 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-colors"
+              >
+                Explore Premium Users
+              </button>
+            </div>
           ) : (
             feed?.posts?.map((item, idx) => <Post key={idx} post={item} />)
           )}
