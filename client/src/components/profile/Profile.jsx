@@ -103,12 +103,14 @@ function Profile() {
                 Suggested For You
               </h3>
               <div
-                className={`overflow-y-auto ${
-                  feed?.suggestions?.length > 4 ? 'h-40' : ''
-                }`}
+                className={
+                  feed?.suggestions?.length > 4
+                    ? 'overflow-y-auto h-60 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
+                    : ''
+                }
               >
                 {feed?.suggestions?.map((item) => (
-                  <div key={item.updatedAt} className="rounded-lg mb-2 p-3 ">
+                  <div key={item.updatedAt} className="rounded-lg mb-2 p-3">
                     <Follower data={item} />
                   </div>
                 ))}
@@ -118,7 +120,7 @@ function Profile() {
         </div>
 
         {/* Right Content */}
-        <div className="flex-2 w-full lg:w-2/3">
+        <div className="flex-2 w-full lg:w-2/3 overflow-y-auto h-screen [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {user && <CreatePost />}
           {userProfile?.posts?.map((post) => (
             <Post key={post._id} post={post} />
